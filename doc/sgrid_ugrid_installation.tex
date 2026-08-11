@@ -1,0 +1,72 @@
+\documentclass{Mooiman_memo}
+
+\newcommand{\menuarrow}{$\rightarrow$}
+\newcommand{\sugrid}{sgrid\_ugrid\xspace}
+\newcommand{\plotcfts}{PlotCFTS\xspace}
+\newcommand\Cpp{C\nolinebreak[4]\hspace{-.05em}\raisebox{.25ex}{{\textbf{++}}}\xspace}
+\newcommand{\netcdf}{netCDF\xspace}
+
+\newcommand\T{\rule{0pt}{2.6ex}}       % Top T
+\newcommand\B{\rule[-1.2ex]{0pt}{0pt}} % Bottom T
+
+\begin{document}
+\memoTo{}
+\memoDate{\today}
+\memoVersion{001}
+\memoFrom{Jan Mooiman}
+\memoTelephone{---}
+\memoEmail{jan.mooiman@outlook.com}
+\memoSubject{Installation of the \sugrid plugin for QGIS 4 and higher on a Windows 10 PC.}
+\memoCopy{}
+
+\mooimantitle
+
+%--------------------------------------------------------------------------------
+
+\section{Installation}
+\phantom{mooiman}\vspace{-\baselineskip}
+\begin{action}
+\item Copy the file \file{\sugrid.dll} to the \Cpp plugin directory of QGIS.
+In my development installation it is:\newline
+\dir{c:\textbackslash OSGeo4W64\textbackslash apps\textbackslash qgis\textbackslash plugins\textbackslash sgrid\_ugrid.dll}.
+
+\item Install the user manual on the program files directory\newline \dir{c:\textbackslash Program Files\textbackslash Mooiman\textbackslash sgrid\_ugrid\textbackslash doc}
+\begin{itemize}
+	\item sgrid\_ugrid\_um.pdf
+\end{itemize}
+
+\item Install the icons on the program files directory\newline \dir{c:\textbackslash Program Files\textbackslash Mooiman\textbackslash sgrid\_ugrid\textbackslash icons}
+\begin{itemize}
+    \item file\_open.png
+    \item map\_output.png
+    \item plotcfts.png
+    \item remote\_olv.png
+    \item \ldots
+\end{itemize}
+\item Install the program \plotcfts on the program files directory\newline \dir{c:\textbackslash Program Files\textbackslash Mooiman\textbackslash plotcfts}
+\end{action}
+
+\paragraph*{Some notes}
+\phantom{mooiman}\vspace{-\baselineskip}
+\begin{itemize}
+\item The \sugrid.dll need the following dll's, so they should be in the \%PATH\%-environment variable:
+\begin{itemize}
+    \item qt6core.dll
+    \item qt6gui.dll
+    \item qt6widgets.dll
+\end{itemize}
+
+\item Next dll's are probably already placed in the \%PATH\%-environment variable when installing QGIS:
+\begin{itemize}
+    \item qgis\_core.dll
+    \item qgis\_gui.dll
+\end{itemize}
+\end{itemize}
+%--------------------------------------------------------------------------------
+\section{Source}
+The source code is available on GitHub:
+\begin{Verbatim}
+https://github.com/Mooiman/qgis_sgrid_ugrid
+\end{Verbatim}
+%--------------------------------------------------------------------------------
+\end{document}

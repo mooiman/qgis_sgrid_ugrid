@@ -1,0 +1,126 @@
+//
+// Programmer: Jan Mooiman
+// Email     : jan.mooiman@outlook.com
+//
+//    QGIS plugin to plot and animate results from SGRID and/or UGRID compliant grids.
+//    1D grid with its geometry, 1D2D, 2D and 3D grids.
+//    Copyright (C) 2026 Jan Mooiman
+//
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+//---------------------------------------------------------------
+#include "edit_observation_points_window.h"
+//
+//-----------------------------------------------------------------------------
+//
+int EditObsPoints::object_count = 0;
+
+
+EditObsPoints::EditObsPoints(QgsMapLayer * obs_layer, QgsMapLayer * geom_layer, GRID * grid_file, QgisInterface * QGisIface) :
+    QDockWidget()
+{
+    object_count++;
+    m_QGisIface = QGisIface;
+    m_MyCanvas = new MyCanvas(QGisIface);
+    QGisIface->mapCanvas();
+    m_obs_layer = obs_layer;
+    m_geom_layer = geom_layer;
+    m_grid_files = grid_file;
+    m_ntw_geom = grid_file->get_network_geometry();
+
+    create_window(); //QMessageBox::information(0, "Information", "DockWindow::DockWindow()");
+
+    QObject::connect(m_MyCanvas, &MyCanvas::MouseReleaseEvent, this, &EditObsPoints::MyMouseReleaseEvent);
+    //QObject::connect(m_MyCanvas, &QComboBox::activated, this, &EditObsPoints::cb_clicked);
+    m_QGisIface->mapCanvas()->setMapTool(m_MyCanvas);
+}
+//
+//-----------------------------------------------------------------------------
+//
+EditObsPoints::~EditObsPoints()
+{
+    //QMessageBox::information(0, "Information", "EditObsPoints::~EditObsPoints()");
+    // Only used when closing the application QGIS
+}
+void EditObsPoints::closeEvent(QCloseEvent * ce)
+{
+    //QMessageBox::information(0, "Information", "EditObsPoints::~closeEvent()");
+    Q_UNUSED(ce);
+    this->object_count--;
+    m_QGisIface->mapCanvas()->unsetMapTool(m_MyCanvas);
+    m_MyCanvas->set_variable(nullptr);
+    m_MyCanvas->empty_caches();
+}
+int EditObsPoints::get_count()
+{
+    return object_count;
+}
+
+void EditObsPoints::create_window()
+{
+    //QFont serifFont("Times", 10, QFont::Bold);
+    //this->setFont(serifFont);
+    this->setWindowTitle(QString("Edit observation points"));
+    QFrame * frame = new QFrame(this);
+    QWidget * wid = new QWidget(frame);
+    //QVBoxLayout * vl = new QVBoxLayout();
+    QGridLayout * gl = new QGridLayout();
+    //QAction * _show_p = new QAction();
+
+    QFrame* line = new QFrame();
+    line->setFrameShape(QFrame::HLine);
+    line->setFrameShadow(QFrame::Sunken);
+    //gl->addWidget(line);
+
+    QLabel * lbl00 = new QLabel("Coordinate space: ");
+    QLabel * lbl01 = new QLabel("---");;
+    if (m_geom_layer != nullptr)
+    {
+        lbl01 = new QLabel(m_geom_layer->name());
+    }
+    QLabel * lbl10 = new QLabel("Observation points: ");
+    QLabel * lbl11 = new QLabel(m_obs_layer->name());
+
+    gl->addWidget(lbl00, 0, 0);
+    gl->addWidget(lbl01, 0, 1);
+    gl->addWidget(lbl10, 1, 0);
+    gl->addWidget(lbl11, 1, 1);
+
+    //int i = 0;
+    //for (int j = 0; j < m_ntw_geom->geom[0]->count; j++)
+    //{
+    //    // TODO: if branch is visible then
+    //    for (int k = 0; k < m_ntw_geom->geom[i]->nodes[j]->count; k++)
+    //    {
+    //        double x1 = m_ntw_geom->geom[i]->nodes[j]->x[k];
+    //        double y1 = m_ntw_geom->geom[i]->nodes[j]->y[k];
+    //    }
+    //}
+    //m_MyCanvas->
+
+    //QObject::connect(cb, &QComboBox::activated, this, &EditObsPoints::cb_clicked);
+
+    gl->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    wid->setLayout(gl);
+    this->setWidget(wid);
+    return;
+}
+void EditObsPoints::cb_clicked(int a)
+{
+    Q_UNUSED(a);
+}
+void EditObsPoints::MyMouseReleaseEvent(QgsMapMouseEvent * me)
+{
+    Q_UNUSED(me);
+}

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerCommand>c:\OSGeo4W\bin\qgis.bat</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>c:\Users\janmo\home\models\c081_eindhoven_1d</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerWorkingDirectory>c:\Users\janmo\home\models\c081_eindhoven_1d</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommand>c:\OSGeo4W\bin\qgis.bat</LocalDebuggerCommand>
+  </PropertyGroup>
+</Project>

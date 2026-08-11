@@ -1,0 +1,198 @@
+//
+// Programmer: Jan Mooiman
+// Email     : jan.mooiman@outlook.com
+//
+//    QGIS plugin to plot and animate results from SGRID and/or UGRID compliant grids.
+//    1D grid with its geometry, 1D2D, 2D and 3D grids.
+//    Copyright (C) 2026 Jan Mooiman
+//
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+//---------------------------------------------------------------
+#ifndef __SGRID_UGRID_H__
+#define __SGRID_UGRID_H__
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
+#include <iostream>
+
+#include <QAction>
+#include <QComboBox>
+#include <QDesktopServices>
+#include <QIcon>
+#include <QLayout> 
+#include <QMenu>
+#include <QMenuBar>
+#include <QMessageBox>
+#include <QObject>
+#include <QProcessEnvironment>
+#include <QProgressBar>
+#include <QSizePolicy> 
+#include <QSpacerItem> 
+#include <QToolBar>
+#include <QTreeWidget>
+#include <QtMath>
+#include <QFile>
+#include <QFileInfo>
+#include <QFileDialog>
+
+#include <qgsstatusbar.h>
+
+//#include "MyEditTool.h"
+#include "handle_vector_layers.h"
+#include "MyDrawingCanvas.h"
+#include "netcdf.h"
+#include "grid.h"
+#include "his_cf.h"
+#include "json_reader.h"
+#include "edit_observation_points_window.h"
+#include "map_time_manager_window.h"
+#include "map_property_window.h"
+
+#include <direct.h> // for getcwd
+#include <stdlib.h> // for MAX_PATH
+
+#define MSG_LENGTH 101
+#define PATH_LENGTH 1024
+
+#define    WAIT_MODE 1
+#define NO_WAIT_MODE 0
+
+class QAction;
+class UGRID;
+
+class sgrid_ugrid
+    : public QObject, public QgisPlugin
+{
+    Q_OBJECT
+
+    public:
+        static const QString s_ident, s_name, s_description, s_category, s_version, s_plugin_icon, s_plugin_version;
+        static const QgisPlugin::PluginType s_plugin_type;
+
+        //sgrid_ugrid();
+        sgrid_ugrid(QgisInterface* iface);
+        ~sgrid_ugrid();
+        void initGui();
+        void unload();
+
+        //  qgis_umesh functions
+        char* stripSpaces(char *);
+
+        void show_map_output(GRID *);
+        void edit_1d_obs_points();
+        void experiment();
+
+        
+    private slots:
+        void openFile();
+        void openFile(QFileInfo);
+        void open_file_his_cf();
+        void open_file_his_cf(QFileInfo);
+        void open_file_mdu();
+        void open_file_mdu(QString);
+        void open_file_link1d2d_json();
+        void open_file_link1d2d_json(QFileInfo);
+        void open_file_obs_point_json();
+        void open_file_obs_point_json(QFileInfo);
+        void set_enabled();
+        void about();
+        void activate_layers();
+        void activate_observation_layers();
+        void ShowUserManual();
+
+        HISCF * get_active_his_cf_file(QString);
+        void set_show_map_output();
+        void start_plotcfts();
+        void dummy_slot();
+        void mapPropertyWindow();
+        void onWillRemoveChildren(QgsLayerTreeNode *, int, int);
+        void onRemovedChildren(QString);
+
+    private:
+        // windows
+        MapTimeManagerWindow * mtm_widget = nullptr;
+
+        // functions
+        void unload_vector_layers();
+        QIcon get_icon_file(QDir, QString);
+        int QT_SpawnProcess(int, char *, char **);
+
+        // variables
+        QgisInterface * mQGisIface; // Pointer to the QGIS interface object
+        QgsMapCanvas  * mCanvas; // Pointer to the QGIS canvas
+        QgsStatusBar * status_bar;
+        QgsCoordinateReferenceSystem m_crs;
+
+        QAction * mainAction;
+        QAction * open_action_map;
+        QAction * open_action_his_cf;
+        QAction * open_action_mdu;
+        QAction * open_action_link1d2d_json;
+        QAction * open_action_obs_point_json;
+        QAction * edit_action_1d_obs_points;
+        QAction * trial_experiment;
+        QAction * inspectAction;
+        QAction * plotcftsAction;
+        QAction * mapoutputAction;
+        QAction * showUserManualAct;
+        QAction * aboutAction;
+        QMenu * fileMenu;
+
+        QToolBar * tbar;  // complete toolbar for plugin (ie menu and icons)
+
+        QMenu * menu_file;
+        QMenu * menu_output;
+        QMenu * menu_settings;
+        QMenu * menu_help;
+        QMenu * menu_trials;
+
+        QToolButton* toolButton_file;
+        QToolButton* toolButton_settings;
+        QToolButton* toolButton_output;
+        QToolButton* toolButton_help;
+        QToolButton* toolButton_trials;
+
+        QIcon * icon_picture;
+        QIcon icon_open;
+        QIcon icon_open_his_cf;
+        QIcon icon_inspect;
+        QIcon icon_edit_1d_obs_points;
+        QIcon icon_experiment;
+        QIcon icon_plotcfts;
+        QIcon icon_mapoutput;
+        QDir current_dir;
+        QDir executable_dir;
+        QString m_working_dir;
+        QProgressBar * pgBar;
+
+        //MyEditTool * mMyEditTool;
+        MyCanvas * mMyCanvas;
+
+        char * msgtxt = (char *)malloc(MSG_LENGTH * sizeof(char *));
+        char * pluginsHome = (char *)malloc(PATH_LENGTH * sizeof(char *));
+        char * actionIcon_c = (char *)malloc(PATH_LENGTH * sizeof(char *));
+
+        int _fil_index;
+        std::vector<GRID*> m_grid_file;
+        int _his_cf_fil_index;
+        std::vector<HISCF *> m_his_cf_file;
+        int _mdu_fil_index;
+        std::vector<JSON_READER *> m_mdu_files;
+        HVL* m_hvl = nullptr; 
+        //struct _global_attributes* m_global_attributes;
+};
+#endif

@@ -1,0 +1,262 @@
+\documentclass{mooiman_memo}
+\usepackage{CJKutf8}
+\usepackage{gitinfo2}
+
+\newcommand{\menuarrow}{$\rightarrow$}
+\newcommand{\plotcfts}{PlotCFTS\xspace}
+\newcommand{\dflowfm}{D-Flow FM\xspace}
+\newcommand{\sugrid}{SGRID\_UGRID\xspace}
+\newcommand{\qgis}{QGIS\xspace}
+\newcommand{\netcdf}{netCDF\xspace}
+\newcommand{\cfstandard}{Climate and Forecast 1.7 standard\xspace}
+
+\begin{document}
+\memoTo{SGRID-UGRID users}
+\memoConfidentialUntil{}
+\memoDate{\today}
+\memoVersion{001}
+\memoFrom{Jan Mooiman}
+\memoTelephone{---}
+\memoEmail{---}
+\memoSubject{Manual to plot SGRID and/or UGRID map-files with QGIS}
+\memoCopy{}
+%
+\mooimantitle
+\phantom{text}
+{{
+\setgitdirectory{../.git}
+\vspace{-\baselineskip}
+\subsection*{Version control information}
+\vspace{0.5\baselineskip}
+\begin{tabular}{@{}p{40.0mm}@{}p{0mm}p{\textwidth-27mm-24pt}}
+    \textbf{Git repository} & \textbf{:} & \href{\gitrepository}{\gitrepository} \\
+    \textbf{Git branch} & \textbf{:} & \gitbranch \\
+    \textbf{Git revision (short)} & \textbf{:} & \githash
+\end{tabular}
+}}
+
+\tableofcontents
+\newpage
+%--------------------------------------------------------------------------------
+\section{Release Notes}
+\phantom{m}\vspace{-\baselineskip}
+%
+%
+%--- begin green table ---
+\begin{longtable}{|>{\bfseries}p{6mm-12pt}|p{20mm-3mm-12pt}|p{\textwidth-20mm-3mm-12pt}|}
+\caption{Table with green header} \\%
+\rowcolor{mgreen1}
+& \textcolor{white}{\textbf{Release}}
+& \textcolor{white}{\textbf{Description}}
+\\
+\topline
+\endfirsthead
+\endhead
+\endfoot
+\bottomline
+\endlastfoot
+1 & 0.30.00  &  - Upgrade to QGIS4. \\
+\end{longtable}
+%--- end green table ---
+%
+%
+%--------------------------------------------------------------------------------
+\section{Menu bar}
+\phantom{m}\vspace{-\baselineskip}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.40\textwidth]{pictures/menu_bar.png}
+    \caption{The menu bar of the \sugrid plugin}
+\end{figure}
+
+%------------------------------------------------------------------------------
+\subsection{File}
+\phantom{m}\vspace{-\baselineskip}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.40\textwidth]{pictures/menu_file.png}
+    \caption{Menu \menuarrow File}
+\end{figure}
+
+%--------------------------------------------------------------------------------
+\subsubsection{Open GRID}
+When selecting this option, you can choose \netcdf files which meet the SGRID (no padding) or UGRID standard.
+Example files are the mesh- and map-files of the \dflowfm program (\file{$\ast$\_net.nc}, \file{$\ast$\_map.nc}).
+The map-file contain time-series.
+%--------------------------------------------------------------------------------
+\subsubsection{Open HisCF}
+When selecting this option, you can choose \netcdf files that meet the Climate and Forecast (CF) history file standard (Feature type "timeSeries").
+Example files are the history output files of the program \dflowfm (\file{$\ast$\_his.nc}).
+%--------------------------------------------------------------------------------
+\subsection{Output}
+\phantom{m}\vspace{-\baselineskip}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.40\textwidth]{pictures/menu_output.png}
+    \caption{Menu \menuarrow Output}
+\end{figure}
+
+%------------------------------------------------------------------------------
+\subsubsection{Show map output}
+After selecting \menu{Output\menuarrow Show map output} the window \window{Map Output Animation} will open, see as example \autoref{fig:map_output}.
+\begin{figure}[H]
+\begin{subfigure}[b]{0.48\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{pictures/map_output_animation_window_scalar.png}
+	\caption{Layout scalar quantities.\label{fig:map_output_a}}
+	% file used for this picture: ugrid_1d2d3d_map.nc
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{pictures/map_output_animation_window_vector.png}
+	\caption{Layout vector quantities.\label{fig:map_output_b}}
+\end{subfigure}
+    \caption{\window{Map Output Animation} window for scalars and vector.\label{fig:map_output}}
+	% file used for this picture: FM-VZM_0004_map.nc.nc
+\end{figure}
+
+After pressing the \textbf{right} mouse button in this window, the window \window{Map Output Settings} will appear (see  \autoref{sec:map_output_settings} and \autoref{fig:map_output_settings}).
+
+The colorramp can be changed by using the QGIS standard operations on colorramps.
+%------------------------------------------------------------------------------
+\subparagraph*{Add current view to QGIS layer panel}
+\textit{This button is only enabled for scalar quantities.}
+
+After pressing the button \button{Add current view to QGIS panel} a window \window{Add current view to QGIS layer panel} will appear.
+In this window you can specify the layer name which will be presented in the QGIS layer panel, see \autoref{fig:currentviewlayerpanel}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.90\textwidth]{pictures/current_view_add.png}
+	\caption{Window \window{Add current view to QGIS layer panel}\label{fig:currentviewlayerpanel}}
+\end{figure}
+After pressing the button \button{Add} the layer will be added to the layer panel.
+Pressing the \button{Quit} button will close the window.
+%------------------------------------------------------------------------------
+\subsubsection{PlotCFTS}
+After selecting \menu{Output\menuarrow \plotcfts} the program \plotcfts will start, see as example \autoref{fig:plotcfts_main}.
+Select from the menubar of the \plotcfts program menu option \menu{Help \menuarrow User Manual} to open the user manual for the program \plotcfts.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{pictures/main_plotcfts.png}
+    \caption{Main window of the \plotcfts program.\label{fig:plotcfts_main}}
+\end{figure}
+%--------------------------------------------------------------------------------
+\subsection{Map output settings\label{sec:map_output_settings}}
+Settings for the presentation of scalars and vectors.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.40\textwidth]{pictures/menu_settings.png}
+    \caption{Menu \menuarrow Settings}
+\end{figure}
+When selecting this option some settings for the presentation of the variables via the window \window{Map Output Animation} can be set.
+This window will also pop up when using the right mouse button within the window \window{Map Output Animation}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.50\textwidth]{pictures/map_output_settings.png}
+	\caption{Window \window{Map Output Settings}\label{fig:map_output_settings}}
+\end{figure}
+The following quantities can be specified in the window presented by \autoref{fig:map_output_settings}:
+\begin{longtable}{p{35mm-12pt} p{\textwidth-35mm-12pt}}
+	Refresh rate & Specify the refresh rate, in seconds, of the images during animation. \\
+	\textbf{Opacity} & \\
+	Opacity & Specify the opacity of the iso patches for the scalars by a integer number [\%] or by the slider, the range of the permitted values is: 0 - 100 [\%]. Zero means fully transparent.\\
+	\textbf{Colorramp limits} & \\
+	\textsl{Dynamic colorramp} & \\
+	\underline{checked} & Colorramp limits are determined by the minimum and maximum value of the scalar.
+	These values reach their extreme values after all timestep are visualised.\\
+	\underline{unchecked} &
+	Maximum value: \quad specify the maximum value for the scalar.\newline
+	Minimum value: \quad specify the minimum value for the scalar.\\	\textbf{Vector scaling} & \\
+	Vector scaling & The vector of length 1 (ex.\ \SI{1}{[\metre\per\second]}) is scaled with this factor. The drawing length is based on the averaged cell size.
+\end{longtable}
+%--------------------------------------------------------------------------------
+\subsection{Help}
+\phantom{m}\vspace{-\baselineskip}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{pictures/menu_help.png}
+    \caption{Menu \menuarrow Help}
+\end{figure}
+
+%--------------------------------------------------------------------------------
+\subsubsection{User Manual}
+Shows the user manual
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{pictures/menu_help_user_manual.png}
+	\caption{\sugrid user manual}
+\end{figure}
+
+%--------------------------------------------------------------------------------
+\subsubsection{About}
+Shows the about box.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{pictures/maze.pdf}%.png}
+    \caption{About box}
+\end{figure}
+%--------------------------------------------------------------------------------
+%\subsection{Trials}
+%\phantom{m}\vspace{-\baselineskip}
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.40\textwidth]{pictures/menu_trials.png}
+%    \caption{Menu \menuarrow Trials}
+%\end{figure}
+%------------------------------------------------------------------------------
+\section{QGIS panels}
+Some \qgis panels are shown after reading a \netcdf map-file.
+%------------------------------------------------------------------------------
+\subsection{Layer panel}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{pictures/panel_layers.png}
+	\caption{The \qgis layer panel after reading a \netcdf map-file.\label{fig:panel_layer}}
+\end{figure}
+%------------------------------------------------------------------------------
+\subsection{Log messages panel}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{pictures/panel_log_message.png}
+	\caption{The \qgis layer panel after reading a \netcdf map-file.\label{fig:log_panel_layer}}
+\end{figure}
+%------------------------------------------------------------------------------
+\section{Examples figures}
+Examples are given for a scalar field (Depth averaged velocity magnitude) and the corresponding vector field (arrow and direction).
+%------------------------------------------------------------------------------
+\subsection{Example scalar field}
+These fields are given on the output files of \dflowfm.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{pictures/oosterschelde_velocity_magnitude.png}
+	\caption{Depth averaged velocity, magnitude.\label{fig:velocity_magnitude}}
+\end{figure}
+%------------------------------------------------------------------------------
+\subsection{Example vector field}
+These fields are not given on the output files of \dflowfm.
+So the postprocessing program (\sugrid) need to compute the quantities of the vector field, like vector arrows and vector direction.
+
+\textit{The "velocity magnitude" is given on the output file of \dflowfm and thus computed by \dflowfm.}
+
+The quantity "velocity magnitude" is therefor available in the tab \menu{Scalar}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{pictures/oosterschelde_velocity_arrow.png}
+	\caption{Depth averaged velocity, vector.\label{fig:velocity_vector}}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{pictures/oosterschelde_velocity_direction.png}
+	\caption{Depth averaged velocity, direction.\label{fig:velocity_vector_direction}}
+\end{figure}
+%------------------------------------------------------------------------------
+\section{Source}
+The source code is available on GitHub:
+
+\url{https://github.com/mooiman/qgis_sgrid_ugrid}
+%------------------------------------------------------------------------------
+
+\end{document}
