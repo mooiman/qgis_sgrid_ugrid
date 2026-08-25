@@ -302,27 +302,27 @@ void sgrid_ugrid::initGui()
     menu_trials->addAction(edit_action_1d_obs_points);
     menu_trials->addAction(trial_experiment);
 
-    QToolButton* toolButton_file = new QToolButton();
+    toolButton_file = new QToolButton();
     toolButton_file->setText("File"); // Optional: button text
     toolButton_file->setMenu(menu_file);
     toolButton_file->setPopupMode(QToolButton::InstantPopup); // alternative: show menu immediately
 
-    QToolButton* toolButton_output = new QToolButton();
+    toolButton_output = new QToolButton();
     toolButton_output->setText("Output"); // Optional: button text
     toolButton_output->setMenu(menu_output);
     toolButton_output->setPopupMode(QToolButton::InstantPopup); // alternative: show menu immediately
 
-    QToolButton* toolButton_settings = new QToolButton();
+    toolButton_settings = new QToolButton();
     toolButton_settings->setText("Settings"); // Optional: button text
     toolButton_settings->setMenu(menu_settings);
     toolButton_settings->setPopupMode(QToolButton::InstantPopup); // alternative: show menu immediately
 
-    QToolButton* toolButton_help = new QToolButton();
+    toolButton_help = new QToolButton();
     toolButton_help->setText("Help"); // Optional: button text
     toolButton_help->setMenu(menu_help);
     toolButton_help->setPopupMode(QToolButton::InstantPopup); // alternative: show menu immediately
 
-    QToolButton* toolButton_trials = new QToolButton();
+    toolButton_trials = new QToolButton();
     toolButton_trials->setText("Trials"); // Optional: button text
     toolButton_trials->setMenu(menu_trials);
     toolButton_trials->setPopupMode(QToolButton::InstantPopup); // alternative: show menu immediately
@@ -540,17 +540,16 @@ int sgrid_ugrid::QT_SpawnProcess(int waiting, char* prgm, char** args)
 //
 void sgrid_ugrid::about()
 {
-    char* text;
-    char* source_url;
     QString* msg_text;
-    text = getversionstring_sgrid_ugrid();
-    source_url = getsourceurlstring_sgrid_ugrid();
+    QString text = QString(getversionstring_sgrid_ugrid());
 
     msg_text = new QString("Mooiman\n");
     msg_text->append("Plot results from SGRID and/or UGRID compliant grids. 1D mesh with its geometry, 1D2D, 2D and 3D meshes.\n");
     msg_text->append(text);
     msg_text->append("\nSource: ");
-    msg_text->append(source_url);
+    msg_text->append(geturlstring_sgrid_ugrid());
+    msg_text->append("\nBranch: ");
+    msg_text->append(getbranchstring_sgrid_ugrid());
     QMessageBox::about(NULL, tr("About"), *msg_text);
 }
 //

@@ -22,13 +22,13 @@
 //---------------------------------------------------------------
 
 #include <string.h>
-
 #include "sgrid_ugrid_version.h"
 
 #if defined(WIN32) || defined (WIN64)
 # define strdup _strdup
 #endif
 
+static char sgrid_ugrid_build_string[] = { sgrid_ugrid_build };
 static char sgrid_ugrid_version[] = { sgrid_ugrid_major "." sgrid_ugrid_minor "." sgrid_ugrid_revision "." sgrid_ugrid_build " (" sgrid_ugrid_arch ")" };
 static char sgrid_ugrid_version_id[] = {"@(#)Mooiman, " sgrid_ugrid_program " Version " sgrid_ugrid_major "." sgrid_ugrid_minor "." sgrid_ugrid_revision "." sgrid_ugrid_build " (" sgrid_ugrid_arch "), " __DATE__ ", " __TIME__ "" };
 
@@ -38,20 +38,28 @@ static char sgrid_ugrid_program_name[] = { sgrid_ugrid_program };
 char * getfullversionstring_sgrid_ugrid(void)
 {
     return strdup(sgrid_ugrid_version_id);
-};
+}
 char * getversionstring_sgrid_ugrid(void)
 {
     return strdup(sgrid_ugrid_version);
-};
+}
 char * getcompanystring_sgrid_ugrid(void)
 {
     return strdup(sgrid_ugrid_company_name);
-};
+}
 char * getprogramstring_sgrid_ugrid(void)
 {
     return strdup(sgrid_ugrid_program_name);
-};
-char * getsourceurlstring_sgrid_ugrid(void)
+}
+char * getbranchstring_sgrid_ugrid(void)
+{
+    return strdup(sgrid_ugrid_branch);
+}
+char * geturlstring_sgrid_ugrid(void)
 {
     return strdup(sgrid_ugrid_source_url);
-};
+}
+char * getbuildstring_sgrid_ugrid(void)
+{
+    return strdup(sgrid_ugrid_build_string);
+}

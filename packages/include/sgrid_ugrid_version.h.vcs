@@ -20,16 +20,17 @@
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 //---------------------------------------------------------------
-#ifndef __sgrid_ugrid_VERSION__     
-#define __sgrid_ugrid_VERSION__     
+#ifndef __SGRID_UGRID_VERSION__     
+#define __SGRID_UGRID_VERSION__     
 
 #define sgrid_ugrid_major "VN_MAJOR"
 #define sgrid_ugrid_minor "VN_MINOR"
 #define sgrid_ugrid_revision "VN_REVISION"
 #define sgrid_ugrid_build "VCS_BUILD_HASH"
+#define sgrid_ugrid_branch "VCS_BRANCH"
 
 #define sgrid_ugrid_company "Mooiman"
-#define sgrid_ugrid_company_url "---"
+#define sgrid_ugrid_company_url "https://github.com/mooiman"
 #define sgrid_ugrid_source_url "VCS_SOURCE_URL"
 #define sgrid_ugrid_program "SGRID-UGRID"
 #define sgrid_ugrid_version_number "VN_MAJOR.VN_MINOR.VN_REVISION.VCS_BUILD_HASH"
@@ -50,7 +51,9 @@ extern "C" {
     extern char * getfullversionstring_sgrid_ugrid(void);
     extern char * getprogramstring_sgrid_ugrid(void);
     extern char * getversionstring_sgrid_ugrid(void);
-    extern char * getsourceurlstring_sgrid_ugrid(void);
+    extern char * getbranchstring_sgrid_ugrid(void);
+    extern char * geturlstring_sgrid_ugrid(void);
+    extern char * getbuildstring_sgrid_ugrid(void);
 }
 
 #endif 
