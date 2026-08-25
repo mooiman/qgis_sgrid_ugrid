@@ -38,14 +38,15 @@ $GitModified = ""
 if (git diff --stat origin/$GitBranch) {
     $GitModified = "M-"
 }
-
 $GitHash = git rev-parse --short HEAD
+$GitModifiedHash = "$GitModified$GitHash"
+
 $GitDate = git show -s --format="%cd" --date=format:"%Y-%m-%d %H:%M:%S" HEAD
 
 Write-Host "GIT Date  : $GitDate"
-Write-Host "GIT Hash  : $GitModified$GitHash"
+Write-Host "GIT Hash  : $GitModifiedHash"
 
-$FullHash = "$GitDate, $GitModified$GitHash"
+$FullHash = "$GitDate, $GitModifiedHash"
 Write-Host "GIT Full  : $FullHash"
 
 # --- Source URL ---
@@ -68,7 +69,7 @@ Write-Host "Version: $VN_MAJOR.$VN_MINOR.$VN_REVISION"
 # --- Transform file ---
 $content = Get-Content $InTextFile -Raw
 
-$content = $content -replace $SEARCHTEXT,          $FullHash
+$content = $content -replace $SEARCHTEXT,          $GitModifiedHash
 $content = $content -replace $SEARCHGITURL,        $GitUrl
 $content = $content -replace $SEARCHSOURCEBRANCH,  $GitBranch
 $content = $content -replace "VN_MAJOR",           $VN_MAJOR
