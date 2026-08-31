@@ -20,17 +20,16 @@
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 //---------------------------------------------------------------
-
-#include <string.h>
+#include <string>
 #include "sgrid_ugrid_version.h"
 
 #if defined(WIN32) || defined (WIN64)
 # define strdup _strdup
 #endif
 
-static char sgrid_ugrid_build_string[] = { sgrid_ugrid_build };
-static char sgrid_ugrid_version[] = { sgrid_ugrid_major "." sgrid_ugrid_minor "." sgrid_ugrid_revision "." sgrid_ugrid_build " (" sgrid_ugrid_arch ")" };
-static char sgrid_ugrid_version_id[] = {"@(#)Mooiman, " sgrid_ugrid_program " Version " sgrid_ugrid_major "." sgrid_ugrid_minor "." sgrid_ugrid_revision "." sgrid_ugrid_build " (" sgrid_ugrid_arch "), " __DATE__ ", " __TIME__ "" };
+static char sgrid_ugrid_build_string[] = { sgrid_ugrid_git_build };
+static char sgrid_ugrid_version[] = { sgrid_ugrid_major "." sgrid_ugrid_minor "." sgrid_ugrid_revision "." sgrid_ugrid_git_build " (" sgrid_ugrid_arch ")" };
+static char sgrid_ugrid_version_id[] = {"@(#)Mooiman, " sgrid_ugrid_program " Version " sgrid_ugrid_major "." sgrid_ugrid_minor "." sgrid_ugrid_revision "." sgrid_ugrid_git_build " (" sgrid_ugrid_arch "), " __DATE__ ", " __TIME__ "" };
 
 static char sgrid_ugrid_company_name[] = {"Mooiman"};
 static char sgrid_ugrid_program_name[] = { sgrid_ugrid_program };
@@ -51,15 +50,19 @@ char * getprogramstring_sgrid_ugrid(void)
 {
     return strdup(sgrid_ugrid_program_name);
 }
-char * getbranchstring_sgrid_ugrid(void)
+char * getgitbranchstring_sgrid_ugrid(void)
 {
-    return strdup(sgrid_ugrid_branch);
+    return strdup(sgrid_ugrid_git_branch);
 }
-char * geturlstring_sgrid_ugrid(void)
+char * getgiturlstring_sgrid_ugrid(void)
 {
-    return strdup(sgrid_ugrid_source_url);
+    return strdup(sgrid_ugrid_git_source_url);
 }
-char * getbuildstring_sgrid_ugrid(void)
+char * getgitbuildstring_sgrid_ugrid(void)
 {
-    return strdup(sgrid_ugrid_build_string);
+    return strdup(sgrid_ugrid_git_build);
+}
+char * getgitdatestring_sgrid_ugrid(void)
+{
+    return strdup(sgrid_ugrid_git_date);
 }

@@ -541,16 +541,15 @@ int sgrid_ugrid::QT_SpawnProcess(int waiting, char* prgm, char** args)
 void sgrid_ugrid::about()
 {
     QString* msg_text;
-    QString text = QString(getversionstring_sgrid_ugrid());
 
-    msg_text = new QString("Mooiman\n");
-    msg_text->append("Plot results from SGRID and/or UGRID compliant grids. 1D mesh with its geometry, 1D2D, 2D and 3D meshes.\n");
-    msg_text->append(text);
-    msg_text->append("\nSource: ");
-    msg_text->append(geturlstring_sgrid_ugrid());
-    msg_text->append("\nBranch: ");
-    msg_text->append(getbranchstring_sgrid_ugrid());
-    QMessageBox::about(NULL, tr("About"), *msg_text);
+    msg_text = new QString();
+    msg_text->append("Plot results from SGRID and/or UGRID compliant grids, 1D2D, 2D and 3D grids. 1D grids with its geometry.");
+    msg_text->append("\nVersion: " + QString(getversionstring_sgrid_ugrid()));
+    msg_text->append("\nCompany: " + QString(getcompanystring_sgrid_ugrid()));
+    msg_text->append("\nGIT Date: " + QString(getgitdatestring_sgrid_ugrid()));
+    msg_text->append("\nGIT Branch: " + QString(getgitbranchstring_sgrid_ugrid()));
+    msg_text->append("\nGIT Source: " + QString(getgiturlstring_sgrid_ugrid()));
+    QMessageBox::about(NULL, QString(getprogramstring_sgrid_ugrid()) + " - About", *msg_text);
 }
 //
 //-----------------------------------------------------------------------------

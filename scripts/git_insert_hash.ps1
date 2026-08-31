@@ -27,6 +27,7 @@ Push-Location $IncludeDir
 $SEARCHTEXT         = "VCS_BUILD_HASH"
 $SEARCHGITURL       = "VCS_SOURCE_URL"
 $SEARCHSOURCEBRANCH = "VCS_BRANCH"
+$SEARCHSOURCEDATE   = "VCS_DATE"
 
 $GitRemoteURL = git config --get remote.origin.url
 Write-Host "GIT Remote: $GitRemoteURL"
@@ -72,6 +73,7 @@ $content = Get-Content $InTextFile -Raw
 $content = $content -replace $SEARCHTEXT,          $GitModifiedHash
 $content = $content -replace $SEARCHGITURL,        $GitUrl
 $content = $content -replace $SEARCHSOURCEBRANCH,  $GitBranch
+$content = $content -replace $SEARCHSOURCEDATE,    $GitDate
 $content = $content -replace "VN_MAJOR",           $VN_MAJOR
 $content = $content -replace "VN_MINOR",           $VN_MINOR
 $content = $content -replace "VN_REVISION",        $VN_REVISION
