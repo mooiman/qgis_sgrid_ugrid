@@ -3,12 +3,9 @@ QGIS plugin to plot 1D, 1D2D and 2D time series map results as animation. The ma
 
 ![alt tag](doc/pictures/oosterschelde_velocity_arrow.png)
 
-<<<<<<< HEAD
-Animation:
+A short animation in QGIS 4.2.2 of the capabilities of the qgis_sgrid_ugrid plugin;
 [▶️ View animation](media/sgrid_ugrid_oosterschelde.mp4)
 
-=======
->>>>>>> parent of 91b7211 (A short animation in QGIS 4.2.2 of the capabilities of the qgis_sgrid_ugrid plugin)
 ## To build
 To build the SGRID_UGRID plugin you have to install QGIS (OSGeo4W network installer (64 bit), https://qgis.org/en/site/forusers/download.html ).
 The windows solution and/or the CMake environment will place the sgrid_ugrid.dll on the qgis plugin directory (ex. c:\OSGeo4W64\apps\qgis\plugins\sgrid_ugrid.dll).
