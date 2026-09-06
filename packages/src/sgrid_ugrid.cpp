@@ -59,13 +59,16 @@ sgrid_ugrid::sgrid_ugrid(QgisInterface* iface):
     m_working_dir = QString("");
     this->m_hvl = new HVL(mQGisIface);
 
-    this->pgBar = new QProgressBar();
+    this->pgBar  = qobject_cast<QProgressBar *>( 
+        iface->mainWindow()->findChild<QProgressBar *>( QStringLiteral("mProgressBar") ) 
+    );
+
     this->pgBar->setMaximum(1000);
     this->pgBar->setValue(0);
     this->pgBar->hide();
 
     status_bar = mQGisIface->statusBarIface();
-    status_bar->addPermanentWidget(this->pgBar, 0, QgsStatusBar::Anchor::AnchorRight);
+    status_bar->addPermanentWidget(this->pgBar, 0, QgsStatusBar::AnchorLeft);
 
     QgsLayerTree* treeRoot = QgsProject::instance()->layerTreeRoot();  // root is invisible}
     //connect(treeRoot, &QgsLayerTree::removedChildren, this, &sgrid_ugrid::onWillRemoveChildren);
@@ -175,8 +178,9 @@ void sgrid_ugrid::initGui()
     //mainAction->setCheckable(true);
     //mainAction->setChecked(true);
     //mainAction->setEnabled(true);
-
-    tbar = mQGisIface->addToolBar("Delft3D FM (1D, 2D and 1D2D)");
+    QString toolbar_name = QString("Delft3D FM (1D, 2D and 1D2D)");
+    tbar = mQGisIface->addToolBar(toolbar_name);
+    tbar->setObjectName(toolbar_name);
     tbar->addAction(mainAction);
 
     connect(mainAction, SIGNAL(changed()), this, SLOT(set_enabled()));
@@ -1812,8 +1816,6 @@ char* sgrid_ugrid::stripSpaces(char* string)
 //
 void sgrid_ugrid::unload()
 {
-    delete this->mainAction;  // delete main Icon on the Delft3D toolbar tbar
-    delete this->tbar;  // delete main icon and combobox with plugins
     unload_vector_layers();
 
     // clean the Mesh (unstructured) group
@@ -1846,6 +1848,8 @@ void sgrid_ugrid::unload()
         delete mtm_widget;
         mtm_widget = NULL;
     }
+    delete this->mainAction;  // delete main Icon on the Delft3D toolbar tbar
+    delete this->tbar;  // delete main icon and combobox with plugins
     DELETE_TIMERN()
     //QMessageBox::warning(0, tr("Message"), QString("sgrid_ugrid::unload()."));
 }
