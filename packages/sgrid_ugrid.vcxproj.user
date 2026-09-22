@@ -2,11 +2,11 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommand>c:\OSGeo4W\bin\qgis.bat</LocalDebuggerCommand>
-    <LocalDebuggerWorkingDirectory>c:\Users\janmo\home\models\c081_eindhoven_1d</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>c:\Users\janmo\checkouts\git\delta-formulation-main\src\c++\2d\test_cases\wave_2d\curvilinear_meander\meander_constant_dx_river_bed</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerWorkingDirectory>c:\Users\janmo\home\models\c081_eindhoven_1d</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>c:\Users\janmo\checkouts\git\delta-formulation-main\src\c++\2d\test_cases\wave_2d\curvilinear_meander\meander_constant_dx_river_bed</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>c:\OSGeo4W\bin\qgis.bat</LocalDebuggerCommand>
   </PropertyGroup>

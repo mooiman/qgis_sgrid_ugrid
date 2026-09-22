@@ -109,6 +109,7 @@ class sgrid_ugrid
         void open_file_obs_point_json();
         void open_file_obs_point_json(QFileInfo);
         void set_enabled();
+        void set_enabled(QgsMapLayer*);
         void about();
         void activate_layers();
         void activate_observation_layers();
@@ -125,11 +126,13 @@ class sgrid_ugrid
     private:
         // windows
         MapTimeManagerWindow * mtm_widget = nullptr;
+        MapPropertyWindow * mpw_widget = nullptr;
 
         // functions
         void unload_vector_layers();
         QIcon get_icon_file(QDir, QString);
         int QT_SpawnProcess(int, char *, char **);
+        void delete_action(QAction * action);
 
         // variables
         QgisInterface * mQGisIface; // Pointer to the QGIS interface object

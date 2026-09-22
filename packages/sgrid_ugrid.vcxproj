@@ -224,7 +224,7 @@ call ..\scripts\git_insert_hash.cmd .\include sgrid_ugrid_version.rc</Command>
       <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
-      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformation>true</BrowseInformation>
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -266,7 +266,7 @@ call ..\scripts\git_insert_hash.cmd .\include sgrid_ugrid_version.rc</Command>
       </HeaderFileName>
     </Midl>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\include;c:\OSGeo4W\include;c:\OSGeo4W\apps\qgis\include;$(QT6DIR_OSGEO)\include;$(QT6DIR_OSGEO)\include\ActiveQt\;$(QT6DIR_OSGEO)\include\Qt\;$(QT6DIR_OSGEO)\include\QtCore\;$(QT6DIR_OSGEO)\include\QtGui\;$(QT6DIR_OSGEO)\include\QtSvg\;$(QT6DIR_OSGEO)\include\QtWidgets\;$(QT6DIR_OSGEO)\include\QtXml\;$(NETCDF_DIR)\include;$(BOOST_ROOT_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -276,7 +276,7 @@ call ..\scripts\git_insert_hash.cmd .\include sgrid_ugrid_version.rc</Command>
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformation>true</BrowseInformation>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalOptions>/Zc:__cplusplus /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -288,10 +288,10 @@ call ..\scripts\git_insert_hash.cmd .\include sgrid_ugrid_version.rc</Command>
       <AdditionalDependencies>;qgis_core.lib;qgis_gui.lib;qgis_analysis.lib;netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>c:\OSGeo4W\apps\qgis\plugins\$(ProjectName).dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>$(QT6DIR_OSGEO)\lib;c:\OSGeo4W\apps\qgis\lib\;..\lib\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\lib\$(Platform)\$(Configuration);c:\OSGeo4W\apps\qgis\lib\;$(QT6DIR_OSGEO)\lib;$(NETCDF_DIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>

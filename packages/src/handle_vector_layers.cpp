@@ -538,7 +538,7 @@ void HVL::create_vector_layer_geometry(QString fname, QString layer_name, struct
         if (ntw_geom->nr_ntw == 0)
         {
             QString msg = QString("No Mesh1D geometry given on file: %1").arg(fname);
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true);
             return;
         }
         START_TIMERN(create_vector_layer_geometry);
@@ -728,7 +728,7 @@ void HVL::create_vector_layer_edges(QString fname, QString layer_name, struct _f
                             if (!msg_given)
                             {
                                 QString msg = QString("Some edge lengths are negative (due to an error in the orientation of the edge) \'%1\'.").arg(layer_name);
-                                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true);
+                                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true);
                                 msg_given = true;
                             }
                         }
@@ -1081,7 +1081,7 @@ void HVL::create_vector_layer_1D_structure(GRID * grid_file, JSON_READER * prop_
         {
             QString qname = QString::fromUtf8(prop_tree->get_filename().c_str()).trimmed();
             QString msg = QString(tr("Not all structure locations are supported.\nInvestigate file \"%1\".")).arg(qname);
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true);
         }
         //
         if (cnt_bridges > 0)
@@ -2805,7 +2805,7 @@ void HVL::create_vector_layer_structure(GRID * grid_file, JSON_READER * prop_tre
             QString qname = QString::fromUtf8((prop_tree->get_filename()).c_str()).trimmed();
             QString msg = QString(tr("Structure polylines are skipped.\nTag \"%1\" does not exist in file \"%2\".")
                 .arg(QString::fromUtf8(json_key.c_str()).trimmed().arg(qname)));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
         }
         else
         {
@@ -3089,7 +3089,7 @@ void HVL::create_vector_layer_1D_external_forcing(GRID * grid_file, JSON_READER 
             QString qname = QString::fromUtf8(prop_tree->get_filename().c_str()).trimmed();
             QString msg = QString(tr("Sources and sinks are skipped.\nTag \"%1\" does not exist in file \"%2\".")
                 .arg(QString::fromUtf8(json_key.c_str()).trimmed()).arg(qname));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
         }
         else
         {
@@ -3263,7 +3263,7 @@ void HVL::create_vector_layer_1D_external_forcing(GRID * grid_file, JSON_READER 
                 QString qname = QString::fromUtf8(prop_tree->get_filename().c_str()).trimmed();
                 QString msg = QString(tr("Boundary polylines are skipped.\nTag \"%1\" does not exist in file \"%2\".")
                     .arg(QString::fromUtf8(json_key.c_str()).trimmed()).arg(qname));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
         }
         if (fname.size() != 0)
@@ -3385,7 +3385,7 @@ void HVL::create_vector_layer_1D_external_forcing(GRID * grid_file, JSON_READER 
             QString qname = QString::fromUtf8(prop_tree->get_filename().c_str()).trimmed();
             QString msg = QString(tr("Lateral areas are skipped.\nTag \"%1\" does not exist in file \"%2\".")
                 .arg(QString::fromUtf8(json_key.c_str()).trimmed()).arg(qname));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
         }
         else
         {
@@ -3505,7 +3505,7 @@ void HVL::create_vector_layer_1D_external_forcing(GRID * grid_file, JSON_READER 
             QString qname = QString::fromUtf8((prop_tree->get_filename()).c_str()).trimmed();
             QString msg = QString(tr("Lateral discharges are skipped.\nTag \"%1\" does not exist in file \"%2\".")
                 .arg(QString::fromUtf8(json_key.c_str()).trimmed().arg(qname)));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
         }
         else
         {
@@ -3518,7 +3518,7 @@ void HVL::create_vector_layer_1D_external_forcing(GRID * grid_file, JSON_READER 
                 QString qname = QString::fromUtf8((prop_tree->get_filename()).c_str()).trimmed();
                 QString msg = QString(tr("Lateral discharges are skipped.\nTag \"%1\" does not exist in file \"%2\".")
                     .arg(QString::fromUtf8(json_key.c_str()).trimmed().arg(qname)));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
                 STOP_TIMER(data.lateral.id);
                 return;
             }
@@ -3640,7 +3640,7 @@ void HVL::create_vector_layer_1D_external_forcing(GRID * grid_file, JSON_READER 
             QString qname = QString::fromUtf8(prop_tree->get_filename().c_str()).trimmed();
             QString msg = QString(tr("Boundary nodes are skipped.\nTag \"%1\" does not exist in file \"%2\".")
                 .arg(QString::fromUtf8(json_key.c_str()).trimmed()).arg(qname));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
         }
         else
         {
@@ -3725,7 +3725,7 @@ void HVL::create_vector_layer_1D_external_forcing(GRID * grid_file, JSON_READER 
             QString qname = QString::fromUtf8((prop_tree->get_filename()).c_str()).trimmed();
             QString msg = QString(tr("Coefficients are skipped.\nTag \"%1\" in not supported for file \"%2\".")
                 .arg(QString::fromUtf8(json_key.c_str()).trimmed().arg(qname)));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
         }
         STOP_TIMER(create_vector_layer_1D_external_forcing)
     }
@@ -3946,7 +3946,7 @@ void HVL::create_vector_layer_1D_cross_section(GRID * grid_file, JSON_READER * p
         QString qname = QString::fromUtf8(prop_tree->get_filename().c_str()).trimmed();
         QString msg = QString(tr("Cross-section locations are skipped.\nTag \"%1\" does not exist in file \"%2\".")
             .arg(QString::fromUtf8(json_key.c_str()).trimmed().arg(qname)));
-        QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+        QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
     }
     else
     {
@@ -3959,7 +3959,7 @@ void HVL::create_vector_layer_1D_cross_section(GRID * grid_file, JSON_READER * p
             QString qname = QString::fromUtf8((prop_tree->get_filename()).c_str()).trimmed();
             QString msg = QString(tr("Cross-section are skipped.\nTag \"%1\" does not exist in file \"%2\".")
                 .arg(QString::fromUtf8(json_key.c_str()).trimmed().arg(qname)));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             STOP_TIMER(create_vector_layer_1D_cross_section);
             return;
         }
@@ -4080,7 +4080,7 @@ void HVL::create_vector_layer_1D_retention(GRID* grid_file, JSON_READER* prop_tr
         QString qname = QString::fromUtf8((prop_tree->get_filename()).c_str()).trimmed();
         QString msg = QString(tr("Retention locations are skipped.\nTag \"%1\" does not exist in file \"%2\".")
             .arg(QString::fromUtf8(json_key.c_str()).trimmed().arg(qname)));
-        QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+        QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
     }
     else
     {
@@ -4093,7 +4093,7 @@ void HVL::create_vector_layer_1D_retention(GRID* grid_file, JSON_READER* prop_tr
             QString qname = QString::fromUtf8((prop_tree->get_filename()).c_str()).trimmed();
             QString msg = QString(tr("Retention locations are skipped.\nTag \"%1\" does not exist in file \"%2\".")
                 .arg(QString::fromUtf8(json_key.c_str()).trimmed().arg(qname)));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             STOP_TIMER(create_vector_layer_1D_retention);
             return;
         }
@@ -4214,7 +4214,7 @@ void HVL::create_vector_layer_1D2D_link(JSON_READER * prop_tree, long epsg_code)
             QString qname = QString::fromUtf8((prop_tree->get_filename()).c_str()).trimmed();
             QString msg = QString(tr("Links between 1D and 2D mesh is skipped.\nTag \"%1\" does not exist in file \"%2\".")
                 .arg(QString::fromUtf8(json_key.c_str()).trimmed().arg(qname)));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
         }
         else
         {
@@ -4227,7 +4227,7 @@ void HVL::create_vector_layer_1D2D_link(JSON_READER * prop_tree, long epsg_code)
                 QString qname = QString::fromUtf8(prop_tree->get_filename().c_str()).trimmed();
                 QString msg = QString(tr("Links between 1D and 2D mesh is skipped.\nTag \"%1\" does not exist in file \"%2\".")
                     .arg(QString::fromUtf8(json_key.c_str()).trimmed().arg(qname)));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
                 STOP_TIMER(create_1D2D_link_vector_layer);
                 return;
             }

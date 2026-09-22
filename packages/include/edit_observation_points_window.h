@@ -81,7 +81,7 @@ class EditObsPoints
         QgsMapCanvas * m_QgsMapcanvas;
         QgsMapLayer * m_obs_layer;
         QgsMapLayer * m_geom_layer;
-        GRID * m_grid_files;
+        GRID * m_grid_files = nullptr;
         MyCanvas * m_MyCanvas;
         struct _ntw_geom * m_ntw_geom;
 

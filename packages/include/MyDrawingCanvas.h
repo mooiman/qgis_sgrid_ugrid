@@ -281,7 +281,7 @@ private:
     void InitDrawEachCaches(void);
     void DrawEachCaches(void);
 
-    GRID * m_grid_file;
+    GRID * m_grid_file = nullptr;
     struct _variable * m_variable;
     struct _mesh_variable * m_variables;
     QStringList m_coordinate_type;

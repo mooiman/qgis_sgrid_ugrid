@@ -1228,7 +1228,7 @@ long GRID::read_ugrid_variables()
                 QString msg = QString("Variable \'%1\' does have 4 dimensions, still under construction.").arg(qname) ;
 #ifdef NATIVE_C
 #else
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true);
 #endif
                 bool contains_time_dimension = false;
                 for (int i = 0; i < m_mesh_vars->variable[m_nr_mesh_var - 1]->dims.size(); i++)
@@ -1731,7 +1731,7 @@ long GRID::read_sgrid_variables()
                 QString msg = QString("Variable \'%1\' does have 4 dimensions, still under construction.").arg(qname);
 #ifdef NATIVE_C
 #else
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true);
 #endif
                 bool contains_time_dimension = false;
                 for (int i = 0; i < m_mesh_vars->variable[m_nr_mesh_var - 1]->dims.size(); i++)
@@ -3969,7 +3969,7 @@ int GRID::read_geometry_attributes(struct _geom_string* geom_strings, int i_var,
 #ifdef NATIVE_C
 #else
         QString msg = QString("UGRID::read_geometry_attributes\nFile does not contain the geometry coordinates attribute.");
-        QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true);
+        QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true);
 #endif
         status = 1;
     }

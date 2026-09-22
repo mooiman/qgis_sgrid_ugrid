@@ -169,7 +169,7 @@ void MyCanvas::draw_dot_at_face()
         auto end = std::chrono::steady_clock::now();
         std::chrono::duration<double> elapse_time = end - start;
         QString msg = QString(tr("Timing reading dot at face: %2 [sec]").arg(elapse_time.count()));
-        QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+        QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 
         start = std::chrono::steady_clock::now();
 #endif
@@ -187,7 +187,7 @@ void MyCanvas::draw_dot_at_face()
         end = std::chrono::steady_clock::now();
         elapse_time = end - start;
         msg = QString(tr("Timing drawing dot at face: %2 [sec]").arg(elapse_time.count()));
-        QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+        QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 #endif
     }
 }
@@ -257,7 +257,7 @@ void MyCanvas::draw_data_at_face()
             auto end = std::chrono::steady_clock::now();
             std::chrono::duration<double> elapse_time = end - start;
             QString msg = QString(tr("Timing reading data at face: %2 [sec]").arg(elapse_time.count()));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 
             start = std::chrono::steady_clock::now();
 #endif        
@@ -305,7 +305,7 @@ void MyCanvas::draw_data_at_face()
             end = std::chrono::steady_clock::now();
             elapse_time = end - start;
             msg = QString(tr("Timing drawing data at face: %2 [sec]\n").arg(elapse_time.count()));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 #endif
         }
     }
@@ -345,7 +345,7 @@ void MyCanvas::draw_data_at_node()
             auto end = std::chrono::steady_clock::now();
             std::chrono::duration<double> elapse_time = end - start;
             QString msg = QString(tr("Timing reading data at node: %2 [sec]").arg(elapse_time.count()));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 
             start = std::chrono::steady_clock::now();
 #endif        
@@ -485,7 +485,7 @@ void MyCanvas::draw_data_at_node()
             end = std::chrono::steady_clock::now();
             elapse_time = end - start;
             msg = QString(tr("Timing drawing data at node: %2 [sec]\n").arg(elapse_time.count()));
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 #endif
         }
     }
@@ -533,7 +533,7 @@ void MyCanvas::draw_vector_arrow()
             { 
                 m_vec_length = 1.;
                 QString msg = QString("Variable \'cell_area\' not found. Vectors are scaled with a factor %1.").arg(m_vec_length);
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true);
             }
             else
             {

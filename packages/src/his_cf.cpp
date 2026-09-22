@@ -527,7 +527,7 @@ long HISCF::read_parameters()
                 if (m_message_count < 1)
                 {
                     QString msg = QString("Deprecated history file used, probably not all observation points and/or cross section are visualised.");
-                    QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true);
+                    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true);
                     m_message_count += 1;
                 }
 

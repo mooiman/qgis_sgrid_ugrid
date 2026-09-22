@@ -31,11 +31,11 @@
 
 #define EXPERIMENT 1
 
-/* static */ const QString sgrid_ugrid::s_ident = QObject::tr("@(#)" sgrid_ugrid_company ", " sgrid_ugrid_program ", " sgrid_ugrid_version_number ", " sgrid_ugrid_arch", " __DATE__", " __TIME__);
-/* static */ const QString sgrid_ugrid::s_name = QObject::tr("" sgrid_ugrid_company ", " sgrid_ugrid_program " Development");
-/* static */ const QString sgrid_ugrid::s_description = QObject::tr("Plugin to read 1D2D3D (un)structured meshes; SGRID/UGRID-format (" __DATE__", " __TIME__")");
-/* static */ const QString sgrid_ugrid::s_category = QObject::tr("Plugins");
-/* static */ const QString sgrid_ugrid::s_plugin_version = QObject::tr(sgrid_ugrid_version_number);
+/* static */ const QString sgrid_ugrid::s_ident = QString("@(#)" sgrid_ugrid_company ", " sgrid_ugrid_program ", " sgrid_ugrid_version_number ", " sgrid_ugrid_arch", " __DATE__", " __TIME__);
+/* static */ const QString sgrid_ugrid::s_name = QString("" sgrid_ugrid_company ", " sgrid_ugrid_program " Development");
+/* static */ const QString sgrid_ugrid::s_description = QString("Plugin to read 1D2D3D (un)structured meshes; SGRID/UGRID-format (" __DATE__", " __TIME__")");
+/* static */ const QString sgrid_ugrid::s_category = QString("Plugins");
+/* static */ const QString sgrid_ugrid::s_plugin_version = QString(sgrid_ugrid_version_number);
 
 /* static */ const QgisPlugin::PluginType sgrid_ugrid::s_plugin_type = QgisPlugin::UI;
 /* static */ const QString* s_plugin_icon;
@@ -48,6 +48,9 @@ sgrid_ugrid::sgrid_ugrid(QgisInterface* iface):
 {
 #include "vsi.xpm"
 #include "vsi_disabled.xpm"
+    //QString msg = QString("sgrid_ugrid::sgrid_ugrid: Constructor.");
+    //QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
+
     mQGisIface = iface;
     icon_picture = new QIcon();
     icon_picture->addPixmap(QPixmap(vsi), QIcon::Normal, QIcon::On);
@@ -93,6 +96,12 @@ void sgrid_ugrid::onWillRemoveChildren(QgsLayerTreeNode* node, int indexFrom, in
             PRINT_TIMERN(std_string);
             CLEAR_TIMER();
             m_working_dir = QString("");  // make it empty
+            if (MapPropertyWindow::get_count() != 0)
+            {
+                // close the map property window
+                mpw_widget->closeEvent(nullptr);
+                mpw_widget->close();
+            }   
             if (MapTimeManagerWindow::get_count() != 0)
             {
                 // close the map time manager window
@@ -114,7 +123,7 @@ void sgrid_ugrid::onWillRemoveChildren(QgsLayerTreeNode* node, int indexFrom, in
 void sgrid_ugrid::onRemovedChildren(QString name)
 {
     QString msg = QString("Clean up the memory for this group: \'%1\'").arg(name);
-    QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 }
 
 //
@@ -131,7 +140,8 @@ void sgrid_ugrid::initGui()
 #include "vsi.xpm"
     START_TIMERN(initgui)
 
-    std::cout << "sgrid_ugrid::initGui" << std::endl;
+    //QString msg = QString("sgrid_ugrid::initGui()");
+    //QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 
     m_crs = QgsProject::instance()->crs();
     if (m_crs == QgsCoordinateReferenceSystem("EPSG:4326") ||  // wgs84 == espg:4326
@@ -146,7 +156,7 @@ void sgrid_ugrid::initGui()
     }
 
     connect(this->mQGisIface, SIGNAL(projectRead()), this, SLOT(project_read()));
-    connect(this->mQGisIface, SIGNAL(currentLayerChanged(QgsMapLayer*)), this, SLOT(set_enabled()));
+    connect(this->mQGisIface, SIGNAL(currentLayerChanged(QgsMapLayer*)), this, SLOT(set_enabled(QgsMapLayer*)));
 
     QProcessEnvironment env;
     QString company = getcompanystring_sgrid_ugrid();
@@ -177,7 +187,7 @@ void sgrid_ugrid::initGui()
     //mainAction->setToolTip("Enable/Disable showing meshes");
     //mainAction->setCheckable(true);
     //mainAction->setChecked(true);
-    //mainAction->setEnabled(true);
+    mainAction->setEnabled(true);
     QString toolbar_name = QString("Delft3D FM (1D, 2D and 1D2D)");
     tbar = mQGisIface->addToolBar(toolbar_name);
     tbar->setObjectName(toolbar_name);
@@ -359,19 +369,21 @@ void sgrid_ugrid::initGui()
 //
 void sgrid_ugrid::set_enabled()
 {
+    //QString msg = QString("sgrid_ugrid::set_enabled().");
+    //QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
     //if (mainAction->isChecked())
     {
         //QMessageBox::warning(0, tr("Message"), QString("Plugin will be enabled.\n"));
-        mainAction->setChecked(true);
-        open_action_map->setEnabled(true);
-        open_action_his_cf->setEnabled(true);
-        open_action_mdu->setEnabled(true);
+        this->mainAction->setChecked(true);
+        this->open_action_map->setEnabled(true);
+        this->open_action_his_cf->setEnabled(true);
+        this->open_action_mdu->setEnabled(true);
 
-        inspectAction->setEnabled(false);
+        this->inspectAction->setEnabled(false); 
         GRID* active_grid_file = m_hvl->get_active_grid_file("");
         if (active_grid_file != nullptr)
         {
-            inspectAction->setEnabled(true);
+            this->inspectAction->setEnabled(true);
         }
     }
     //else
@@ -384,6 +396,12 @@ void sgrid_ugrid::set_enabled()
     //    open_action_his_cf->setEnabled(false);
     //    open_action_mdu->setEnabled(false);
     //}
+}
+void sgrid_ugrid::set_enabled(QgsMapLayer* layer)
+{
+    //QString msg = QString("sgrid_ugrid::set_enabled(QgsMapLayer* layer).");
+    //QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
+    int a = 1;
 }
 //
 //-----------------------------------------------------------------------------
@@ -468,7 +486,7 @@ void sgrid_ugrid::mapPropertyWindow()
 {
     if (MapPropertyWindow::get_count() == 0)  // create a window if it is not already there.
     {
-        MapPropertyWindow* map_property = new MapPropertyWindow(mMyCanvas);
+        mpw_widget = new MapPropertyWindow(mMyCanvas);
     }
 }
 //
@@ -736,7 +754,7 @@ void sgrid_ugrid::open_file_his_cf(QFileInfo ncfile)
     auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> elapse_time = end - start;
     QString msg = QString(tr("Timing reading meta data from netCDF file \"%1\": %2 [sec]").arg(ncfile.fileName()).arg(elapse_time.count()));
-    QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 #endif
 }
 //
@@ -825,7 +843,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
     {
         QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
         QString msg = QString(tr("No UGRID/SGRID mesh file given.\nTag \"%2\" does not exist in file \"%1\".").arg(QString::fromUtf8((json_key).c_str())).arg(qname));
-        QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true);
+        QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true);
         return;
     }
     QgsLayerTree* treeRoot = QgsProject::instance()->layerTreeRoot();  // root is invisible
@@ -858,7 +876,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
             {
                 QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
                 QString msg = QString(tr("Observation points are skipped.\nTag \"%1\" does not exist in file \"%2\".").arg(QString::fromUtf8((json_key).c_str())).arg(qname));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -893,7 +911,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
             {
                 QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
                 QString msg = QString(tr("External forcing file (old format) is skipped.\nTag \"%1\" does not exist in file \"%2\".").arg(QString::fromUtf8((json_key).c_str())).arg(qname));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -928,7 +946,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
             {
                 QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
                 QString msg = QString(tr("External forcings are skipped.\nTag \"%1\" does not exist in file \"%2\".").arg(QString::fromUtf8((json_key).c_str())).arg(qname));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -962,7 +980,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
             {
                 QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
                 QString msg = QString(tr("Structures are skipped.\nTag \"%1\" does not exist in file \"%2\".").arg(QString::fromUtf8((json_key).c_str())).arg(qname));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -996,7 +1014,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
             {
                 QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
                 QString msg = QString(tr("Structures are skipped.\nTag \"%1\" does not exist in file \"%2\".").arg(QString::fromUtf8((json_key).c_str())).arg(qname));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -1030,7 +1048,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
             {
                 QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
                 QString msg = QString(tr("Structures are skipped.\nTag \"%1\" does not exist in file \"%2\".").arg(QString::fromUtf8((json_key).c_str())).arg(qname));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -1064,7 +1082,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
             {
                 QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
                 QString msg = QString(tr("Observation cross-sections are skipped.\nTag \"%1\" does not exist in file \"%2\".").arg(QString::fromUtf8((json_key).c_str())).arg(qname));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -1098,7 +1116,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
             {
                 QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
                 QString msg = QString(tr("Thin dams are skipped.\nTag \"%1\" does not exist in file \"%2\".").arg(QString::fromUtf8((json_key).c_str())).arg(qname));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -1132,7 +1150,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
             {
                 QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
                 QString msg = QString(tr("Thin dams are skipped.\nTag \"%1\" does not exist in file \"%2\".").arg(QString::fromUtf8((json_key).c_str()).arg(qname)));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -1167,7 +1185,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
                 QString qname = QString::fromUtf8((pt_mdu->get_filename().c_str()));
                 QString msg = QString(tr("Cross-section locations are skipped.\nTag \"%1\" does not exist in file \"%2\".")
                     .arg(QString::fromUtf8(json_key.c_str())).arg(qname));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -1201,7 +1219,7 @@ void sgrid_ugrid::open_file_mdu(QString ffname)
             {
                 QString qname = QString::fromUtf8((pt_mdu->get_filename()).c_str());
                 QString msg = QString(tr("Retention locations are skipped.\nTag \"%1\" does not exist in file \"%2\".").arg(QString::fromUtf8((json_key).c_str()).arg(qname)));
-                QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Info, true);
+                QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
             }
             else
             {
@@ -1371,7 +1389,14 @@ void sgrid_ugrid::open_file_obs_point_json(QFileInfo jsonfile)
 void sgrid_ugrid::set_show_map_output()
 {
     GRID* grid_file = m_hvl->get_active_grid_file("");
-    if (grid_file != nullptr) { show_map_output(grid_file); }
+    if (grid_file != nullptr) 
+    { 
+        show_map_output(grid_file); 
+    }
+    else
+    {
+        QMessageBox::warning(0, tr("Warning"), tr("There is no layer selected which contains a grid file.\nMap output will not be shown."));
+    }
 }
 //
 //-----------------------------------------------------------------------------
@@ -1532,7 +1557,7 @@ void sgrid_ugrid::activate_layers()
         if (mapping->epsg == 0)
         {
             QString msg = QString("%1\nThe CRS code on file \'%2\' is not known.\nThe CRS code is set to the same CRS code as the presentation map (see lower right corner).\nPlease change the CRS code after loading the file, if necessary.").arg(grid_file->get_filename().fileName()).arg(fname);
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true );
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true );
 
             // get the crs of the presentation (lower right corner of the qgis main-window)
             QgsCoordinateReferenceSystem _crs = QgsProject::instance()->crs();
@@ -1755,7 +1780,7 @@ void sgrid_ugrid::activate_observation_layers()
         {
             QString fname = _his_cf_file->get_filename().canonicalFilePath();
             QString msg = QString("%1\nThe CRS code on file \'%2\' is not known.\nThe CRS code is set to the same CRS code as the presentation map (see lower right corner).\nPlease change the CRS code after loading the file, if necessary.").arg(_his_cf_file->get_filename().fileName()).arg(fname);
-            QgsMessageLog::logMessage(msg, "QGIS umesh", Qgis::Warning, true);
+            QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Warning, true);
 
             // get the crs of the presentation (lower right corner of the qgis main-window)
             QgsCoordinateReferenceSystem _crs = QgsProject::instance()->crs();
@@ -1848,10 +1873,23 @@ void sgrid_ugrid::unload()
         delete mtm_widget;
         mtm_widget = NULL;
     }
-    delete this->mainAction;  // delete main Icon on the Delft3D toolbar tbar
+    delete_action(this->mainAction);
+    delete_action(this->open_action_mdu);
+    delete_action(this->open_action_map);
+    delete_action(this->open_action_his_cf);
+    delete_action(this->open_action_obs_point_json);
+    delete_action(this->edit_action_1d_obs_points);
+    delete_action(this->trial_experiment);
+    delete_action(this->inspectAction);
+    delete_action(this->plotcftsAction);
+    delete_action(this->mapoutputAction);
+    delete_action(this->showUserManualAct);
+    delete_action(this->aboutAction);
+
     delete this->tbar;  // delete main icon and combobox with plugins
-    DELETE_TIMERN()
-    //QMessageBox::warning(0, tr("Message"), QString("sgrid_ugrid::unload()."));
+    DELETE_TIMER()
+    //QString msg = QString("sgrid_ugrid::unload(), Done");
+    //QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 }
 //
 //-----------------------------------------------------------------------------
@@ -1881,6 +1919,15 @@ void sgrid_ugrid::dummy_slot()
 {
     QMessageBox::information(0, tr("Message"), QString("Dummy slot called."));
 }
+void sgrid_ugrid::delete_action(QAction * action)
+{
+    if (action)
+    {
+        mQGisIface->removePluginMenu(tr("&sgrid_ugrid"), action);
+        mQGisIface->removeToolBarIcon(action);
+        delete action; action = nullptr;
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /**
@@ -1892,55 +1939,66 @@ void sgrid_ugrid::dummy_slot()
 // Return the type (either UI or MapLayer plugin)
 QGISEXTERN int type()
 {
-    //QgsMessageLog::logMessage("::type()", "Hello World", Qgis::Info, true);
+//    QString msg = QString("QGISEXTERN type(): Return type \'%1\'.").arg(sgrid_ugrid::s_plugin_type) ;
+//    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
     return int(sgrid_ugrid::s_plugin_type); // eerste, na selectie in plugin manager
 }
 
 // Class factory to return a new instance of the plugin class
 QGISEXTERN QgisPlugin* classFactory(QgisInterface* iface)
 {
-    //QgsMessageLog::logMessage("::classFactory()", "QGIS umesh", Qgis::Info, true);
+//    QString msg = QString("QGISEXTERN classFactory(): Return type: Pointer to sgrid_ugrid.");
+//    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
     sgrid_ugrid* p = new sgrid_ugrid(iface);
     return (QgisPlugin*) p; // tweede na selectie in plugin manager
 }
 
 QGISEXTERN const QString* name()
 {
-    //QgsMessageLog::logMessage("::name()", "QGIS umesh", Qgis::Info, true);
+//    QString msg = QString("QGISEXTERN name(): Return type \'%1\'.").arg(sgrid_ugrid::s_name) ;
+//    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
     return &sgrid_ugrid::s_name; // derde vanuit QGIS
 }
 
 QGISEXTERN const QString* category()
 {
-    //QgsMessageLog::logMessage("::category()", "QGIS umesh", Qgis::Info, true);
+//    QString msg = QString("QGISEXTERN category(): Return type \'%1\'.").arg(sgrid_ugrid::s_category) ;
+//    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
     return &sgrid_ugrid::s_category; 
 }
 
 QGISEXTERN const QString* description()
 {
-    //QgsMessageLog::logMessage("::description()", "QGIS umesh", Qgis::Info, true);
+//    QString msg = QString("QGISEXTERN description(): Return type \'%1\'.").arg(sgrid_ugrid::s_description) ;
+//    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
     return &sgrid_ugrid::s_description; // tweede vanuit QGIS
 }
 
 QGISEXTERN const QString* version()
 {
-    //QgsMessageLog::logMessage("::version()", "QGIS umesh", Qgis::Info, true);
+//    QString msg = QString("QGISEXTERN version(): Return type \'%1\'.").arg(sgrid_ugrid::s_plugin_version) ;
+//    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
     return &sgrid_ugrid::s_plugin_version;
 }
 
 QGISEXTERN const QString* icon()  // derde vanuit QGIS
 {
-    QString company = getcompanystring_sgrid_ugrid();
+    static QString q_icon_file;
     QString program_files = QProcessEnvironment::systemEnvironment().value("ProgramFiles", "");
+    QString company = getcompanystring_sgrid_ugrid();
     QString program_env = program_files + "/" + company + "/sgrid_ugrid";
+    q_icon_file = program_env + "/icons/sgrid_ugrid.png";
 
-    QString q_icon_file = program_env + "/icons/sgrid_ugrid.png";
+//    QString msg = QString("QGISEXTERN icon(): Return type \'%1\'.").arg(q_icon_file) ;
+//    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
+
     return &q_icon_file;
 }
 // Delete ourself
 QGISEXTERN void unload(QgisPlugin* the_sgrid_ugrid_pointer)
 {
-    //QgsMessageLog::logMessage("::unload()", "QGIS umesh", Qgis::Info, true);
+//    QString msg = QString("QGISEXTERN unload(): Return type: Delete/Unload plugin sgrid_ugrid.");
+//    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
     the_sgrid_ugrid_pointer->unload();
     delete the_sgrid_ugrid_pointer;
 }
