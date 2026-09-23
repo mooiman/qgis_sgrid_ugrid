@@ -118,9 +118,10 @@ void MapTimeManagerWindow::closeEvent(QCloseEvent * ce)
         m_cur_view->close();
         m_cur_view = nullptr;
     }
-    if (m_map_property_window != nullptr)
+    if (m_map_property_window->get_count() != 0)
     {
-        m_map_property_window->close();
+        m_map_property_window->closeEvent(nullptr);
+        delete m_map_property_window;
         m_map_property_window = nullptr;
     }
     if (mLegendOverlay->get_count() >= 1)

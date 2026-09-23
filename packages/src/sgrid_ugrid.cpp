@@ -95,19 +95,8 @@ void sgrid_ugrid::onWillRemoveChildren(QgsLayerTreeNode* node, int indexFrom, in
             std::string std_string = timings_file.toStdString();
             PRINT_TIMERN(std_string);
             CLEAR_TIMER();
+            DELETE_TIMER();
             m_working_dir = QString("");  // make it empty
-            if (MapPropertyWindow::get_count() != 0)
-            {
-                // close the map property window
-                mpw_widget->closeEvent(nullptr);
-                mpw_widget->close();
-            }   
-            if (MapTimeManagerWindow::get_count() != 0)
-            {
-                // close the map time manager window
-                mtm_widget->closeEvent(nullptr);
-                mtm_widget->close();
-            }
             for (int i = m_grid_file.size() - 1; i >= 0; --i)  // counter 'i' have to be an integer, there is a test on >=
             {
                 QString filename = m_grid_file[i]->get_filename().fileName();
@@ -122,8 +111,8 @@ void sgrid_ugrid::onWillRemoveChildren(QgsLayerTreeNode* node, int indexFrom, in
 }
 void sgrid_ugrid::onRemovedChildren(QString name)
 {
-    QString msg = QString("Clean up the memory for this group: \'%1\'").arg(name);
-    QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
+    //QString msg = QString("sgrid_ugrid::onRemovedChildren(): Clean up the memory for this group: \'%1\'").arg(name);
+    //QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 }
 
 //
@@ -1859,19 +1848,17 @@ void sgrid_ugrid::unload()
             treeRoot->removeChildNode(janm);
         }
     }
-    for (int i = 0; i < _fil_index; i++)
+    for (size_t i = 0; i < m_grid_file.size(); ++i)
     {
-        //delete[] m_ugrid_file[i];
-    }
-    if (m_grid_file.size() != 0)
-    {
-        //delete m_ugrid_file;
+        delete m_grid_file[i];
     }
 
-    if (mtm_widget != NULL)
+    if (MapTimeManagerWindow::get_count() != 0)
     {
-        delete mtm_widget;
-        mtm_widget = NULL;
+        // close the map time manager window
+        mtm_widget->closeEvent(nullptr);
+        mtm_widget->close();
+        mtm_widget = nullptr;
     }
     delete_action(this->mainAction);
     delete_action(this->open_action_mdu);
@@ -1887,7 +1874,6 @@ void sgrid_ugrid::unload()
     delete_action(this->aboutAction);
 
     delete this->tbar;  // delete main icon and combobox with plugins
-    DELETE_TIMER()
     //QString msg = QString("sgrid_ugrid::unload(), Done");
     //QgsMessageLog::logMessage(msg, "SGRID_UGRID", Qgis::Info, true);
 }
