@@ -55,6 +55,7 @@ void MapPropertyWindow::close()
 {
     //QMessageBox::information(0, "Information", "MapPropertyWindow::~close()");
     this->object_count = 0;
+    wid->close();
 }
 int MapPropertyWindow::get_count()
 {
